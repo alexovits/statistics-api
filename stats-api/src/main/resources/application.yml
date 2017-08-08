@@ -1,0 +1,10 @@
+# Generic properties
+server:
+  contextPath: /stats-api
+  port: 8080
+
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
