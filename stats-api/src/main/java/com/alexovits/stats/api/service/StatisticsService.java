@@ -1,5 +1,6 @@
 package com.alexovits.stats.api.service;
 
+import com.alexovits.stats.model.Statistics;
 import com.alexovits.stats.model.Transaction;
 
 /**
@@ -7,4 +8,5 @@ import com.alexovits.stats.model.Transaction;
  */
 public interface StatisticsService {
     void insertTransaction(Transaction transaction);
+    Statistics getStats();
 }

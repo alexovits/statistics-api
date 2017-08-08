@@ -1,6 +1,7 @@
 package com.alexovits.stats.api.controller;
 
 import com.alexovits.stats.api.service.StatisticsService;
+import com.alexovits.stats.model.Statistics;
 import com.alexovits.stats.model.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,8 @@ public class TransactionController {
     }
 
     @RequestMapping(value = "/statistics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Transaction> getStatistics() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Statistics> getStatistics() {
+        return new ResponseEntity<>(statiscticsService.getStats(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
