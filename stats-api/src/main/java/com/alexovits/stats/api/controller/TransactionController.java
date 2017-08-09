@@ -40,6 +40,7 @@ public class TransactionController {
             statisticsService.insertTransaction(transaction);
         } catch (InvalidTransactionException e) {
             LOG.info(e.getMessage() + "-" + e.getTimestamp());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
