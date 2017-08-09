@@ -30,9 +30,9 @@ public class StatisticsServiceBean implements StatisticsService{
 
     private List<Transaction> latestTransactions;
     private ReadWriteLock lock = new ReentrantReadWriteLock();
-    private int transactionSum;
-    private int maxTransaction;
-    private int minTransaction;
+    private double transactionSum;
+    private double maxTransaction;
+    private double minTransaction;
 
     public StatisticsServiceBean(){
 
@@ -40,23 +40,11 @@ public class StatisticsServiceBean implements StatisticsService{
 
     @PostConstruct
     public void init(){
-        transactionSum = 0;
         latestTransactions = new ArrayList<>();
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         // Using scheduleWithFixedDelay because it counts delay from the end of the thread
         ScheduledFuture daemonTask = scheduledExecutorService.scheduleWithFixedDelay(
-                () -> {
-                    lock.writeLock().lock();
-                    try {
-//                        String owner = "(*) Daemon---Thread (*)";
-//                        System.out.println("*** " + owner + " ***");
-                        Instant currentTimeStamp = Instant.now().minusSeconds(1); // The timestamp of a second before
-                        // Filter out the transactions that are older than one second
-                        latestTransactions = latestTransactions.stream().filter(transaction -> transaction.getTimestamp().isBefore(currentTimeStamp)).collect(Collectors.toList());
-                    } finally {
-                        lock.writeLock().unlock();
-                    }
-                },
+                () -> analyzeTransactions(),
                 0,
                 1000,
                 TimeUnit.MILLISECONDS
@@ -74,7 +62,6 @@ public class StatisticsServiceBean implements StatisticsService{
             System.out.println(latestTransactions);
         } finally {
             lock.readLock().unlock();
-            LOG.info("Kileptem kesz geci");
         }
     }
 
@@ -88,6 +75,34 @@ public class StatisticsServiceBean implements StatisticsService{
             Statistics stats = new Statistics(transactionSum, transactionsAvg, maxTransaction, minTransaction, transactionsCount);
             LOG.info("Response for statistics: " + stats);
             return new Statistics(transactionSum, transactionsAvg, maxTransaction, minTransaction, transactionsCount);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    private void analyzeTransactions() {
+        lock.writeLock().lock();
+        try {
+            // Filter out the transactions that are older than one second
+            latestTransactions = latestTransactions
+                    .stream()
+                    .filter(tr -> !checkExpiredTimestamp(tr.getTimestamp()))
+                    .collect(Collectors.toList());
+            transactionSum = 0;
+            maxTransaction = Integer.MIN_VALUE;
+            minTransaction = Integer.MAX_VALUE;
+            latestTransactions.forEach(tr -> {
+                transactionSum += tr.getAmount();
+                // Search for the greatest element
+                if (maxTransaction < tr.getAmount()) {
+                    maxTransaction = tr.getAmount();
+                }
+                // Search for the smallest element
+                if (minTransaction > tr.getAmount()) {
+                    minTransaction = tr.getAmount();
+                }
+            });
+
         } finally {
             lock.writeLock().unlock();
         }
