@@ -2,7 +2,7 @@
 import asyncio
 import concurrent.futures
 import requests
-
+import json
 async def main():
     # Use builtin thread pool with artbitrary size
     with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
@@ -12,7 +12,8 @@ async def main():
                 executor, 
                 requests.post, 
                 'http://localhost:9009/stats-api/transactions',
-                {'amount':str("6.6"), 'timestamp':'1502267562'}
+                None,
+                {"amount":str(i), "timestamp":"1502268430"}
             )
             for i in range(20)
         ]
