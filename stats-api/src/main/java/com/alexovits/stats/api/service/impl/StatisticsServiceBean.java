@@ -30,17 +30,18 @@ public class StatisticsServiceBean implements StatisticsService{
 
     private List<Transaction> latestTransactions;
     private ReadWriteLock lock;
-    private Statistics statistics;
+    private double transactionSum;
+    private double maxTransaction;
+    private double minTransaction;
 
     public StatisticsServiceBean(){
-        // EMPTY
+
     }
 
     /** Initializes attributes of the class and starts a daemon thread that will repeat every second **/
     @PostConstruct
     public void init(){
         lock = new ReentrantReadWriteLock();
-        statistics = new Statistics();
         transactionSum = 0;
         maxTransaction = Integer.MIN_VALUE;
         minTransaction = Integer.MAX_VALUE;
