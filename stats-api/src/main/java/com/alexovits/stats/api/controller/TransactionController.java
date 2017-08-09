@@ -35,6 +35,7 @@ public class TransactionController {
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     public ResponseEntity postTransaction(@RequestBody Transaction transaction) {
+        System.out.println("EEEElo");
         statiscticsService.insertTransaction(transaction);
         return new ResponseEntity<>(HttpStatus.OK);
     }

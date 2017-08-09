@@ -9,6 +9,8 @@ public class Transaction {
     private double amount;
     private Instant timestamp;
 
+    public Transaction(){}
+
     public Transaction(double amount, Instant timestamp){
         this.amount = amount;
         this.timestamp = timestamp;
@@ -28,5 +30,10 @@ public class Transaction {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "{ amount: "+amount+" timestamp: "+timestamp+"}";
     }
 }
