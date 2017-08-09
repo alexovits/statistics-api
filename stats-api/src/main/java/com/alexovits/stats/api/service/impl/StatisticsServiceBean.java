@@ -64,7 +64,7 @@ public class StatisticsServiceBean implements StatisticsService{
     }
 
     @Override
-    public void insertTransaction(Transaction transaction) {
+    public void insertTransaction(Transaction transaction) throws InvalidTransactionException {
         lock.readLock().lock();
         try {
             if(checkExpiredTimestamp(transaction.getTimestamp())) {

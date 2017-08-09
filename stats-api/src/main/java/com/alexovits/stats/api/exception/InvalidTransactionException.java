@@ -5,7 +5,7 @@ import java.time.Instant;
 /**
  * Created by zsoltszabo on 8/8/17.
  */
-public class InvalidTransactionException extends RuntimeException {
+public class InvalidTransactionException extends Exception {
     public final String message;
     public Instant timestamp;
 

@@ -36,7 +36,11 @@ public class TransactionController {
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     public ResponseEntity postTransaction(@RequestBody Transaction transaction) {
-        statisticsService.insertTransaction(transaction);
+        try {
+            statisticsService.insertTransaction(transaction);
+        } catch (InvalidTransactionException e) {
+            LOG.info(e.getMessage() + "-" + e.getTimestamp());
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
