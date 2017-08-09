@@ -7,7 +7,7 @@ public class Statistics {
     private double sum, avg, max, min;
     private int count;
 
-    private Statistics() {
+    public Statistics() {
         sum = 0;
         avg = 0;
         max = Integer.MIN_VALUE;

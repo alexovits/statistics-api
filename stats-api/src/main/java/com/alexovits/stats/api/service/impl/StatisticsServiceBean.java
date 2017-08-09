@@ -29,18 +29,18 @@ public class StatisticsServiceBean implements StatisticsService{
     private static final Logger LOG = LoggerFactory.getLogger(StatisticsServiceBean.class);
 
     private List<Transaction> latestTransactions;
-    private ReadWriteLock lock = new ReentrantReadWriteLock();
-    private double transactionSum;
-    private double maxTransaction;
-    private double minTransaction;
+    private ReadWriteLock lock;
+    private Statistics statistics;
 
     public StatisticsServiceBean(){
-
+        // EMPTY
     }
 
     /** Initializes attributes of the class and starts a daemon thread that will repeat every second **/
     @PostConstruct
     public void init(){
+        lock = new ReentrantReadWriteLock();
+        statistics = new Statistics();
         transactionSum = 0;
         maxTransaction = Integer.MIN_VALUE;
         minTransaction = Integer.MAX_VALUE;
