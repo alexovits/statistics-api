@@ -1,5 +1,6 @@
 package com.alexovits.stats.api.service;
 
+import com.alexovits.stats.api.exception.InvalidTransactionException;
 import com.alexovits.stats.model.Statistics;
 import com.alexovits.stats.model.Transaction;
 

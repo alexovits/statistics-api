@@ -3,6 +3,8 @@ import asyncio
 import concurrent.futures
 import requests
 import json
+from time import sleep
+
 async def main():
     # Use builtin thread pool with artbitrary size
     with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
@@ -15,11 +17,14 @@ async def main():
                 None,
                 {"amount":str(i), "timestamp":"1502268430"}
             )
-            for i in range(20)
+            for i in range(5)
         ]
-        for response in await asyncio.gather(*futures):
-            pass
+        #for response in await asyncio.gather(*futures):
+        #    pass
 
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+for i in range(10):
+    print("Wave "+str(i))
+    loop.run_until_complete(main())
+    sleep(0.3)

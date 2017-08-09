@@ -4,7 +4,8 @@ package com.alexovits.stats.model;
  * Created by zsoltszabo on 8/8/17.
  */
 public class Statistics {
-    private double sum, avg, max, min, count;
+    private double sum, avg, max, min;
+    private int count;
 
     private Statistics() {
         sum = 0;
@@ -14,11 +15,19 @@ public class Statistics {
         count = 0;
     }
 
+    public Statistics(double sum, double avg, double max, double min, int count){
+        this.sum = sum;
+        this.avg = avg;
+        this.max = max;
+        this.min = min;
+        this.count = count;
+    }
+
     public double getCount() {
         return count;
     }
 
-    public void setCount(double count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
@@ -52,5 +61,10 @@ public class Statistics {
 
     public void setSum(double sum) {
         this.sum = sum;
+    }
+
+    @Override
+    public String toString() {
+        return "Statistics={sum:"+sum+", avg:"+avg+", max:"+max+", min:"+min+", count:"+count+"}";
     }
 }

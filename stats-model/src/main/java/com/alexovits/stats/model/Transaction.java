@@ -34,6 +34,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "{ amount: "+amount+" timestamp: "+timestamp+"}";
+        return "Transaction={ amount: "+amount+" timestamp: "+timestamp+"}";
     }
 }
