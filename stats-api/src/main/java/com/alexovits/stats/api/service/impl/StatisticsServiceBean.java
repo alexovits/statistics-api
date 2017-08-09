@@ -59,7 +59,7 @@ public class StatisticsServiceBean implements StatisticsService{
                 throw new InvalidTransactionException("Timestamp is expired!", transaction.getTimestamp());
             }
             latestTransactions.add(transaction);
-            System.out.println(latestTransactions);
+            LOG.info("Inserted new transaction: " + transaction);
         } finally {
             lock.readLock().unlock();
         }
@@ -109,6 +109,6 @@ public class StatisticsServiceBean implements StatisticsService{
     }
 
     private boolean checkExpiredTimestamp(Instant timestamp) {
-        return Instant.now().minusSeconds(1).isAfter(timestamp) ? true : false;
+        return Instant.now().minusSeconds(60).isAfter(timestamp) ? true : false;
     }
 }
