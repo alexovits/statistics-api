@@ -34,8 +34,9 @@ public class StatisticsServiceBean implements StatisticsService{
     private double maxTransaction;
     private double minTransaction;
 
+    /** For testing **/
     public StatisticsServiceBean(){
-
+        init();
     }
 
     /** Initializes attributes of the class and starts a daemon thread that will repeat every second **/

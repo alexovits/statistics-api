@@ -3,7 +3,6 @@ package com.alexovits.stats.test;
 import com.alexovits.stats.api.exception.InvalidTransactionException;
 import com.alexovits.stats.api.service.StatisticsService;
 import com.alexovits.stats.api.service.impl.StatisticsServiceBean;
-import com.alexovits.stats.model.Statistics;
 import com.alexovits.stats.model.Transaction;
 import org.junit.Assert;
 import org.junit.Before;
@@ -49,21 +48,6 @@ public class StatisticsServiceTest {
             exception = e;
         }
         Assert.assertNotNull("Failure - Expected InvalidTransactionException", exception);
-    }
-
-    @Test
-    public void getStatsCorrectResults(){
-        try{
-            victimStatisticsService.insertTransaction(new Transaction(2, Instant.now()));
-            victimStatisticsService.insertTransaction(new Transaction(3, Instant.now()));
-        } catch(InvalidTransactionException e) {}
-        Statistics stats = victimStatisticsService.getStats();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Assert.assertEquals(stats.getSum(), 5);
     }
 
 }
