@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 public class StatisticsServiceBean implements StatisticsService{
 
     private static final Logger LOG = LoggerFactory.getLogger(StatisticsServiceBean.class);
+    private static final int DAEMON_TIMEOUT = 1000;
+    private static final int PAST_INTERVAL_SECONDS = 60;
 
     private List<Transaction> latestTransactions;
     private ReadWriteLock lock;
@@ -52,7 +54,7 @@ public class StatisticsServiceBean implements StatisticsService{
         ScheduledFuture daemonTask = scheduledExecutorService.scheduleWithFixedDelay(
                 () -> analyzeTransactions(),
                 0,
-                1000,
+                DAEMON_TIMEOUT,
                 TimeUnit.MILLISECONDS
         );
     }
@@ -137,6 +139,6 @@ public class StatisticsServiceBean implements StatisticsService{
      * @return true if the timestamp is expired, false otherwise
      */
     private boolean checkExpiredTimestamp(Instant timestamp) {
-        return Instant.now().minusSeconds(60).isAfter(timestamp) ? true : false;
+        return Instant.now().minusSeconds(PAST_INTERVAL_SECONDS).isAfter(timestamp) ? true : false;
     }
 }
